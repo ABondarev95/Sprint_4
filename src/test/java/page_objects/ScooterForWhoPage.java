@@ -1,13 +1,15 @@
+package page_objects;
+
 import org.openqa.selenium.*;
 
 public class ScooterForWhoPage {
-    private WebDriver driver;
-    private By nameField = By.xpath("//div[2]/div[1]/input"); // поле ввода имени
-    private By surnameField = By.xpath("//div[2]/div[2]/input"); // поле ввода фамилии
-    private By addressField = By.xpath("//div[2]/div[3]/input"); // поле ввода адреса
-    private By metroField = By.xpath("//div[4]//input"); // поле выбора метро
-    private By phoneNumberField = By.xpath("//div[2]/div[5]/input"); // поле ввода номера телефона
-    private By nextStep = By.xpath("//button[text()='Далее']"); // кнопка "Далее"
+    private final WebDriver driver;
+    private final By nameField = By.xpath("//div[2]/div[1]/input"); // поле ввода имени
+    private final By surnameField = By.xpath("//div[2]/div[2]/input"); // поле ввода фамилии
+    private final By addressField = By.xpath("//div[2]/div[3]/input"); // поле ввода адреса
+    private final By metroField = By.xpath("//div[4]//input"); // поле выбора метро
+    private final By phoneNumberField = By.xpath("//div[2]/div[5]/input"); // поле ввода номера телефона
+    private final By nextStep = By.xpath("//button[text()='Далее']"); // кнопка "Далее"
 
     public ScooterForWhoPage(WebDriver driver){
         this.driver = driver;
@@ -34,7 +36,7 @@ public class ScooterForWhoPage {
         driver.findElement(phoneNumberField).sendKeys(phoneNumber);
     }
     // Заполнение полей заказа
-    public void orderPage1(String name, String surname, String address, String metro, String phoneNumber){
+    public void fillingFieldsScooterForWhoPage(String name, String surname, String address, String metro, String phoneNumber){
         setName(name);
         setSurname(surname);
         setAddress(address);
