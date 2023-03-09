@@ -15,28 +15,26 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class FaqDropDownTest {
     private WebDriver driver;
-    private final String faqHeaderId; // id заголовка списка "Вопросы о важном"
-    private final String faqBodyId; // id текста внутри раскрывающегося списка
+    private final int faqListId; // id списка элемента "Вопросы о важном"
     private final String faqBodyText; // текст внутри раскрывающегося списка
 
-    // Конструктор с тремя параметрами
-    public FaqDropDownTest(String faqHeaderId, String faqBodyId, String faqBodyText) {
-        this.faqHeaderId = faqHeaderId;
-        this.faqBodyId = faqBodyId;
+    // Конструктор класса с двумя параметрами
+    public FaqDropDownTest(int faqListId, String faqBodyText) {
+        this.faqListId = faqListId;
         this.faqBodyText = faqBodyText;
         }
     // Метод получения тестовых данных
     @Parameterized.Parameters
     public static Object[][] getFaqListText() {
         return new Object[][] {
-                {"accordion__heading-0", "accordion__panel-0", "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
-                {"accordion__heading-1","accordion__panel-1","Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
-                {"accordion__heading-2","accordion__panel-2","Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
-                {"accordion__heading-3","accordion__panel-3","Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
-                {"accordion__heading-4","accordion__panel-4","Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."},
-                {"accordion__heading-5","accordion__panel-5","Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
-                {"accordion__heading-6","accordion__panel-6","Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
-                {"accordion__heading-7","accordion__panel-7","Да, обязательно. Всем самокатов! И Москве, и Московской области."},
+                {0, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
+                {1,"Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
+                {2,"Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
+                {3,"Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
+                {4,"Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."},
+                {5,"Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
+                {6,"Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
+                {7,"Да, обязательно. Всем самокатов! И Москве, и Московской области."},
         };
     }
     @Test
@@ -50,8 +48,10 @@ public class FaqDropDownTest {
         MainPageSamokat objMainPage = new MainPageSamokat(driver);
         // Пролистать до "Вопросы о важном"
         objMainPage.scrollToFaq();
+        // Выбор элемента из списка "Вопросы о важном"
+        objMainPage.setFaqElement(faqListId);
         // Проверка соответствия текста раскрывающегося списка "Вопросы о важном"
-        String actual = objMainPage.checkFaqList(faqHeaderId, faqBodyId);
+        String actual = objMainPage.checkFaqList();
         assertEquals("Текст раскрывающегося списка 'Вопросы о важном' не соответствует ожидаемому результату", faqBodyText, actual);
     }
     @After

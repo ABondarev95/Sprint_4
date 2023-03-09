@@ -8,7 +8,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPageSamokat {
     private final WebDriver driver;
-    private final By faqHeader = By.className("accordion"); // список "Вопросы о важном"
+    private final By faqBlockHeader = By.xpath("//div[text()='Вопросы о важном']"); // Заголовок блока "Вопросы о важном
+    private By faqHeader = By.id("accordion__heading"); // Заголовок списка "Вопросы о важном"
+    private By faqBody = By.id("accordion__panel"); // Раскрывающееся сообщение в списке "Вопросы о важном
     private By orderButton = By.xpath("//button"); // кнопка "Заказать"
 
     public MainPageSamokat(WebDriver driver){
@@ -16,7 +18,12 @@ public class MainPageSamokat {
     }
     // Найти вопросы о важном и сделать скролл до них
     public void scrollToFaq() {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(faqHeader));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(faqBlockHeader));
+    }
+    // Выбор элемента в списке "Вопросы о важном"
+    public void setFaqElement (int id){
+        faqHeader = By.id("accordion__heading-" + id);
+        faqBody = By.id("accordion__panel-" + id);
     }
     // Выбор кнопки "Закать" на главной странице при различных входных условиях
     public void setOrderButton(boolean button){
@@ -32,10 +39,10 @@ public class MainPageSamokat {
         driver.findElement(orderButton).click();
     }
     // Метод поиска текста в раскрывающемся списке "Вопросы о важном"
-    public String checkFaqList(String accordionHeadingId, String accordionPanelId){
-        driver.findElement(By.id(accordionHeadingId)).click();
+    public String checkFaqList(){
+        driver.findElement(faqHeader).click();
         new WebDriverWait(driver, 3)
-                .until(ExpectedConditions.visibilityOf(driver.findElement(By.id(accordionPanelId))));
-        return driver.findElement(By.id(accordionPanelId)).getText();
+                .until(ExpectedConditions.visibilityOf(driver.findElement(faqBody)));
+        return driver.findElement(faqBody).getText();
     }
 }
